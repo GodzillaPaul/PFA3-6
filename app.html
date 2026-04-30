@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>PFA 美富紅運</title>
+<title>PFA 美富紅運 — 富邦人壽試算</title>
 <style>
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 :root {
@@ -519,6 +519,12 @@ table.illu tr.milestone td { background: var(--milestone) !important; }
   table.illu td { padding: 7px 6px; }
 }
 </style>
+<link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon/icon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon/icon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon/icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon/icon-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon/icon-512x512.png">
 </head>
 <body>
 
@@ -704,7 +710,8 @@ table.illu tr.milestone td { background: var(--milestone) !important; }
 // ====== ACTUARIAL TABLES (loaded async from products/<code>/tables.json) ======
 let T = null;
 let CONFIG = null;
-// ====== STATEtate = {
+// ====== STATE ======
+let state = {
   gender: 1, insAge: -1, period: 3,
   sumInsured: 15,
   mode: 'total', inputAmount: 100,  // 大輸入框的數字(隨 mode 解讀)
@@ -1292,14 +1299,11 @@ document.getElementById('amt-display').addEventListener('change', e => {
 
 // ====== INIT (async) ======
 async function init() {
-  // Determine product code from URL: ?p=PFA (default to PFA)
-  const params = new URLSearchParams(location.search);
-  const code = params.get('p') || 'PFA';
-  // Load config + tables in parallel
+  // PFA 美富紅運 — 固定商品，不使用 URL 參數切換
   try {
     const [cfg, tbl] = await Promise.all([
-      fetch(`products/${code}/config.json`).then(r => r.json()),
-      fetch(`products/${code}/tables.json`).then(r => r.json())
+      fetch('products/PFA/config.json').then(r => r.json()),
+      fetch('products/PFA/tables.json').then(r => r.json())
     ]);
     CONFIG = cfg;
     T = tbl;
@@ -1307,7 +1311,7 @@ async function init() {
     document.getElementById('header-subtitle').textContent = cfg.fullName;
     document.title = `${cfg.code} ${cfg.name}`;
   } catch (e) {
-    document.getElementById('empty-msg').textContent = '載入商品資料失敗 — 請確認網址 ?p=XXX 與 products/<code>/ 資料夾存在';
+    document.getElementById('empty-msg').textContent = '載入商品資料失敗 — 請確認 products/PFA/ 資料夾存在';
     return;
   }
   fetchRate();
