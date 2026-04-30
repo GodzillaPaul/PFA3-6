@@ -1,0 +1,64 @@
+{
+  "code": "PFA",
+  "name": "美富紅運",
+  "fullName": "富邦人壽美富紅運外幣分紅終身壽險",
+  "currency": "USD",
+  "engineType": "wholelife_dividend",
+  "keyPrefix": "PFA",
+  "periodOptions": [3, 6],
+  "ageRange": { "min": 0, "max": 75 },
+  "sumLimits": [
+    { "ageMax": 15, "min": 2, "max": 30 },
+    { "ageMax": 75, "min": 2, "max": 600 }
+  ],
+  "discount": {
+    "highAmount": [
+      { "period": 3, "minSum": 10, "pct": 1 },
+      { "period": 6, "minSum": 15, "pct": 1 }
+    ],
+    "paymentMethod": 1,
+    "cap": 2
+  },
+  "modes": [
+    {
+      "key": "total",
+      "label": "{period}年總存",
+      "default": 100,
+      "quickPicks": [50, 100, 300, 600, 1000]
+    },
+    {
+      "key": "annual",
+      "label": "年存",
+      "default": 10,
+      "quickPicks": [5, 10, 20, 50, 100]
+    },
+    {
+      "key": "target",
+      "label": "目標壽險金額",
+      "default": 300,
+      "quickPicks": [100, 300, 500, 1000, 2000],
+      "targetField": "death",
+      "targetYear": 6
+    }
+  ],
+  "columns": [
+    { "key": "year", "label": "年度" },
+    { "key": "age", "label": "年齡" },
+    { "key": "paid_yr", "label": "折扣後保費" },
+    { "key": "paid_cum", "label": "折扣後總保費" },
+    { "key": "surr", "label": "解約金" },
+    { "key": "profit", "label": "解約獲利" },
+    { "key": "death", "label": "身故金", "bold": true }
+  ],
+  "bonus": {
+    "lucky": [
+      { "period": 3, "minAnnualUsd": 24000, "pct": 1 },
+      { "period": 6, "minAnnualUsd": 12000, "pct": 2 }
+    ],
+    "wallet": [
+      { "period": 3, "minAnnualUsd": 45000 },
+      { "period": 6, "minAnnualUsd": 24000 }
+    ],
+    "walletAmount": 8000
+  }
+}

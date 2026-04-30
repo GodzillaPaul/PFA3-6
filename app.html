@@ -1,0 +1,1319 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>PFA 美富紅運</title>
+<style>
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+:root {
+  --bg: #f5f5f7;
+  --paper: #ffffff;
+  --ink: #1d1d1f;
+  --muted: #888a8e;
+  --border: #d8d8dc;
+  /* Default = 男 mint/teal palette */
+  --accent: #2e8b7e;
+  --accent-light: #d8ece7;
+  --accent-mint: #b8ddd2;
+  --accent-row: #e8f4f0;
+  --header-grad: linear-gradient(135deg, #2e8b7e 0%, #4dab9b 100%);
+  --milestone: #d6f1e8;
+}
+body.female {
+  --accent: #c44a7c;
+  --accent-light: #fbe5ee;
+  --accent-mint: #f5b8d0;
+  --accent-row: #fbeff5;
+  --header-grad: linear-gradient(135deg, #c44a7c 0%, #e07faa 100%);
+  --milestone: #f9d6e5;
+}
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg); color: var(--ink);
+  font-family: 'Microsoft JhengHei', 'PingFang TC', 'Heiti TC', 'Noto Sans TC', system-ui, Arial, sans-serif;
+  font-size: 15px; line-height: 1.4;
+  -webkit-text-size-adjust: 100%;
+}
+input { font-family: inherit; }
+
+/* ============ HEADER ============ */
+.header-outer {
+  background: var(--header-grad);
+  color: white;
+  padding: 32px 16px 28px;
+}
+.header { max-width: 880px; margin: 0 auto;
+  display: flex; align-items: center; gap: 32px;
+  justify-content: center;
+}
+.age-circle {
+  flex: 0 0 auto;
+  width: 132px; height: 132px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: 3px solid rgba(255,255,255,0.55);
+  color: white; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font: inherit; padding: 0;
+  transition: all 0.2s;
+}
+.age-circle:hover, .age-circle:active { background: rgba(255,255,255,0.22); transform: scale(0.97); }
+.age-num { font-size: 56px; font-weight: 700; line-height: 1; letter-spacing: -1px; font-family: 'SF Pro Display', system-ui, sans-serif; }
+.age-num.is-empty { font-size: 38px; font-weight: 300; opacity: 0.6; }
+.age-label { font-size: 14px; opacity: 0.92; margin-top: 4px; }
+
+.header-center { flex: 0 1 auto; max-width: 480px; text-align: center; }
+.header-title {
+  font-size: 26px; font-weight: 700;
+  letter-spacing: 0.5px; margin-bottom: 4px;
+  font-family: system-ui, 'Microsoft JhengHei', sans-serif;
+}
+.header-subtitle { font-size: 13px; opacity: 0.85; margin-bottom: 10px; }
+.bonus-row {
+  display: flex; gap: 8px; justify-content: center;
+  margin-bottom: 12px; flex-wrap: wrap;
+}
+.bonus-pill {
+  border: 1.5px solid rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.12);
+  color: white;
+  padding: 6px 14px; border-radius: 999px;
+  font: inherit; font-size: 13px;
+  display: inline-flex; align-items: center; gap: 6px;
+  cursor: pointer; transition: all 0.15s;
+}
+.bonus-pill:hover { background: rgba(255,255,255,0.22); }
+.bonus-pill .bonus-amt { font-weight: 700; letter-spacing: 0.3px; }
+.bonus-pill.is-disabled { opacity: 0.55; }
+.bonus-pill.is-disabled .bonus-amt { font-weight: 400; }
+
+/* Bonus info modal (separate from age modal) */
+.bm-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55); z-index: 1100;
+  align-items: center; justify-content: center; padding: 16px;
+}
+.bm-overlay.show { display: flex; }
+.bm-card {
+  background: white; border-radius: 16px;
+  width: 100%; max-width: 420px;
+  overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  animation: amSlideUp 0.25s ease-out;
+}
+.bm-header {
+  background: var(--header-grad); color: white;
+  padding: 16px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.bm-title { font-size: 17px; font-weight: 700; }
+.bm-close {
+  border: 0; background: transparent; color: white;
+  font-size: 22px; cursor: pointer; padding: 0;
+  line-height: 1;
+}
+.bm-body { padding: 18px 20px; font-size: 13px; line-height: 1.7; color: var(--ink); }
+.bm-body table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; }
+.bm-body th, .bm-body td { padding: 6px 8px; border-bottom: 1px solid #eee; text-align: left; font-size: 12px; }
+.bm-body th { background: var(--accent-light); color: var(--accent); font-weight: 600; }
+.bm-body .met { color: var(--accent); font-weight: 700; }
+.bm-body .nope { color: var(--muted); }
+.bm-body .small { font-size: 11px; color: var(--muted); margin-top: 8px; }
+.bonus-row { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
+.bonus-pill {
+  border: 1px solid rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.1);
+  color: white;
+  padding: 6px 14px; border-radius: 999px;
+  font: inherit; font-size: 12px;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.prem-big {
+  font-size: 30px; font-weight: 700;
+  font-family: 'SF Pro Display', system-ui, sans-serif;
+  letter-spacing: 0.5px;
+}
+.prem-big small { font-size: 14px; opacity: 0.85; font-weight: 400; }
+.prem-unit { font-size: 12px; opacity: 0.85; margin-top: 2px; margin-bottom: 12px; }
+
+.amount-row {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 4px;
+  background: transparent;
+}
+.amount-row .amount-label { font-size: 13px; opacity: 0.95; margin-right: 4px; }
+.amt-btn {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.6);
+  background: transparent; color: white;
+  font: inherit; font-size: 18px; line-height: 1; cursor: pointer;
+  padding: 0;
+}
+.amt-btn:hover { background: rgba(255,255,255,0.15); }
+.amt-display {
+  width: 110px; padding: 6px 10px;
+  border: 1.5px solid rgba(255,255,255,0.6); border-radius: 999px;
+  background: rgba(255,255,255,0.08); color: white;
+  font: inherit; font-weight: 600; font-size: 16px; text-align: center;
+}
+.amt-display:focus { outline: 2px solid white; }
+.amt-display::placeholder { color: rgba(255,255,255,0.5); }
+.amt-unit { font-size: 13px; opacity: 0.95; }
+
+/* ============ BODY ============ */
+.body-outer { padding: 24px 16px 32px; }
+.body { max-width: 880px; margin: 0 auto; }
+
+.err-msg {
+  background: #fff7ed; color: #7c2d12;
+  border: 1px solid #fcd9b6; border-left: 4px solid #b54708;
+  padding: 8px 12px; border-radius: 6px;
+  margin-bottom: 12px; font-size: 13px;
+}
+
+/* Row 1: gender (left) | center: 保額± + 年期 | currency (right) */
+.ctrl-row {
+  display: flex; align-items: flex-start; gap: 16px;
+  margin-bottom: 18px; flex-wrap: wrap;
+}
+.ctrl-spacer { flex: 1; }
+.ctrl-center {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 8px; flex: 1; min-width: 240px;
+}
+.ctrl-right {
+  display: flex; flex-direction: column; align-items: flex-end;
+  gap: 4px;
+}
+/* Body 保額 row (white background, accent colors) */
+.body-amount-row { color: var(--ink); }
+.body-amount-row .amount-label { font-size: 14px; opacity: 1; color: var(--ink); margin-right: 6px; font-weight: 500; }
+.body-amount-row .amt-btn {
+  width: 30px; height: 30px;
+  border: 1.5px solid var(--accent);
+  background: white; color: var(--accent);
+}
+.body-amount-row .amt-btn:hover { background: var(--accent-light); }
+.body-amount-row .amt-display {
+  width: 110px;
+  border: 1.5px solid var(--accent-mint);
+  background: white; color: var(--ink);
+}
+.body-amount-row .amt-display:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
+.body-amount-row .amt-display::placeholder { color: var(--muted); }
+.body-amount-row .amt-unit { color: var(--muted); }
+.period-inline { display: flex; }
+.period-inline .pill-btn { padding: 6px 18px; font-size: 13px; }
+.fx-status {
+  font-size: 11px; color: var(--muted);
+  text-align: right; margin-top: 2px;
+}
+.fx-status .live { color: var(--accent); font-weight: 600; }
+.fx-status .failed { color: #b54708; font-weight: 600; }
+
+/* Pill toggle (gender / currency) */
+.pill-toggle {
+  display: inline-flex;
+  background: var(--accent-light);
+  border-radius: 999px;
+  padding: 4px;
+}
+.pill-btn {
+  border: 0; background: transparent;
+  padding: 8px 24px; border-radius: 999px;
+  font: inherit; font-size: 14px; color: var(--muted);
+  cursor: pointer; transition: all 0.15s;
+  font-weight: 500;
+}
+.pill-btn.active {
+  background: white; color: var(--accent);
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.pill-btn:hover:not(.active) { color: var(--accent); }
+.exrate-inline {
+  width: 50px; padding: 0 4px; margin-left: 4px;
+  border: 0; background: transparent;
+  font: inherit; font-size: 13px; text-align: right;
+  color: var(--accent); font-weight: 700;
+}
+.exrate-inline:focus { outline: 1px solid var(--accent); border-radius: 3px; }
+.pill-btn:not(.active) .exrate-inline { color: var(--muted); }
+
+/* Mode segmented control - single bar with N segments */
+.mode-row {
+  display: flex; background: var(--accent-light);
+  border-radius: 999px; padding: 5px;
+  margin-bottom: 18px;
+}
+.mode-btn {
+  flex: 1; border: 0; background: transparent;
+  padding: 11px 8px; border-radius: 999px;
+  font: inherit; font-size: 14px; color: var(--muted);
+  cursor: pointer; transition: all 0.15s;
+  font-weight: 500;
+}
+.mode-btn.active {
+  background: white; color: var(--accent);
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* Amount input box */
+.amount-input-row { margin-bottom: 14px; }
+.amount-input-wrap {
+  display: flex; align-items: center;
+  border: 2px solid var(--accent-mint);
+  border-radius: 10px;
+  background: white; padding: 0;
+}
+.amount-input-wrap:focus-within {
+  border-color: var(--accent);
+}
+.amount-text-input {
+  flex: 1; padding: 14px 14px;
+  border: 0; background: transparent;
+  font: inherit; font-size: 24px; font-weight: 600;
+  text-align: center; color: var(--ink);
+  outline: none;
+}
+.amount-text-unit {
+  font-size: 13px; color: var(--muted);
+  padding: 0 16px;
+  white-space: nowrap;
+}
+
+/* Quick buttons (round pills) */
+.quick-row {
+  display: flex; gap: 10px; align-items: center;
+  margin-bottom: 14px; flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.quick-btn, .quick-btn-annual, .quick-btn-target, .quick-btn-amt {
+  border: 1px solid var(--border); background: white;
+  padding: 7px 18px; border-radius: 999px;
+  font: inherit; font-size: 13px; color: var(--muted);
+  cursor: pointer; min-width: 60px;
+  font-weight: 500;
+}
+.quick-btn.active, .quick-btn-annual.active,
+.quick-btn-target.active, .quick-btn-amt.active {
+  background: var(--accent); color: white; border-color: var(--accent);
+  font-weight: 600;
+}
+.quick-btn:hover:not(.active),
+.quick-btn-annual:hover:not(.active),
+.quick-btn-target:hover:not(.active),
+.quick-btn-amt:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+.quick-unit { font-size: 13px; color: var(--muted); margin-left: 4px; }
+
+/* Period row (mirrors PFW retirement-age pills) */
+.period-row {
+  display: flex; gap: 10px; align-items: center;
+  margin-bottom: 14px; flex-wrap: wrap;
+}
+.prod-btn {
+  border: 1px solid var(--border); background: white;
+  padding: 7px 22px; border-radius: 999px;
+  font: inherit; font-size: 13px; color: var(--muted);
+  cursor: pointer; font-weight: 500;
+}
+.prod-btn.active {
+  background: var(--accent); color: white; border-color: var(--accent);
+  font-weight: 600;
+}
+.prod-btn:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+.fx-refresh-btn {
+  border: 1px solid var(--border); background: white;
+  padding: 6px 14px; border-radius: 999px;
+  font: inherit; font-size: 12px; color: var(--muted);
+  cursor: pointer;
+}
+.fx-refresh-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Summary chip */
+.summary-pill {
+  background: var(--accent); color: white;
+  border-radius: 999px; padding: 7px 16px;
+  font-size: 13px; margin: 6px 0 14px 0;
+  display: inline-block;
+  font-weight: 600;
+}
+
+/* Table */
+.tbl-section {
+  background: white; border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden;
+  margin-top: 16px;
+}
+.tbl-note {
+  padding: 10px 16px; background: white;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px; color: var(--muted);
+}
+.tbl-wrap {
+  overflow-x: auto; overflow-y: auto;
+  max-height: 70vh;
+}
+table.illu {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  font-size: 14px;
+  font-family: system-ui, 'SF Pro Text', 'Microsoft JhengHei', sans-serif;
+}
+table.illu thead th {
+  background: var(--accent-light);
+  color: var(--accent);
+  padding: 12px 12px;
+  font-weight: 600; font-size: 13px; text-align: center;
+  white-space: nowrap;
+  position: sticky; top: 0; z-index: 5;
+  /* border-bottom doesn't work with sticky+separate, use box-shadow instead */
+  box-shadow: inset 0 -2px 0 var(--accent-mint);
+}
+table.illu td {
+  padding: 10px 12px; border-bottom: 1px solid #ececf0;
+  text-align: right; white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+table.illu td.txt { text-align: center; color: var(--muted); }
+table.illu tr:nth-child(even) td { background: #fafafa; }
+table.illu tr.milestone td { background: var(--milestone) !important; }
+.tbl-footer {
+  padding: 8px 16px; font-size: 11px; color: var(--muted);
+  background: white; border-top: 1px solid var(--border);
+}
+
+.empty-msg {
+  text-align: center; color: var(--muted);
+  padding: 60px 16px; font-size: 15px;
+}
+
+/* ============ AGE MODAL ============ */
+.am-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55); z-index: 1000;
+  align-items: center; justify-content: center; padding: 16px;
+}
+.am-overlay.show { display: flex; }
+.am-card {
+  background: white; border-radius: 16px;
+  width: 100%; max-width: 360px;
+  overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  animation: amSlideUp 0.25s ease-out;
+}
+@keyframes amSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.am-age-display {
+  background: var(--header-grad);
+  color: white; text-align: center; padding: 26px 16px 18px;
+}
+.am-age-num { font-size: 64px; font-weight: 700; line-height: 1; font-family: 'SF Pro Display', system-ui, sans-serif; }
+.am-age-unit { font-size: 22px; margin-left: 6px; opacity: 0.9; }
+
+.am-gender-wrap { padding: 14px 16px 0; }
+.am-gender-seg {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4px; padding: 4px;
+  background: var(--accent-light); border-radius: 999px;
+}
+.am-gender-btn {
+  border: 0; background: transparent; padding: 10px;
+  border-radius: 999px; cursor: pointer; font: inherit;
+  color: var(--muted); transition: all 0.15s;
+}
+.am-gender-btn.am-active {
+  background: white; color: var(--accent); font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.am-bday-btn-wrap { padding: 12px 16px 8px; text-align: center; }
+.am-bday-btn {
+  border: 1px solid var(--border); background: white;
+  padding: 7px 16px; border-radius: 999px;
+  font: inherit; font-size: 13px; color: var(--accent);
+  cursor: pointer;
+}
+.am-back-btn { display: inline-block; margin-bottom: 8px; }
+
+.am-numpad-display {
+  margin: 4px 16px 8px;
+  text-align: center; font-size: 32px; font-weight: 700;
+  font-family: 'SF Pro Display', system-ui, sans-serif;
+  height: 42px; color: var(--accent);
+}
+.am-numpad-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 6px; padding: 0 16px 8px;
+}
+.am-num {
+  border: 0; background: #f5f5f7;
+  padding: 14px 0; border-radius: 12px;
+  font: inherit; font-size: 22px; font-weight: 600;
+  cursor: pointer; transition: all 0.1s;
+}
+.am-num:active { background: var(--accent-light); transform: scale(0.96); }
+.am-num-fn { background: #e8e8eb; color: var(--muted); font-size: 18px; }
+
+#am-panel-wheel { padding: 0 16px 8px; }
+.am-wheels {
+  display: grid; grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 4px; height: 180px;
+  position: relative;
+}
+.am-wheel-col {
+  overflow: hidden; position: relative;
+  background: #f8f8fb; border-radius: 8px;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+.am-wheel-col::-webkit-scrollbar { display: none; }
+.am-wheel-col::before {
+  content: ''; position: absolute; left: 0; right: 0;
+  top: 50%; transform: translateY(-50%); height: 32px;
+  background: var(--accent-light); pointer-events: none; z-index: 1;
+}
+.am-wheel-list { padding: 74px 0; position: relative; z-index: 0; }
+.am-wheel-item {
+  height: 32px; line-height: 32px;
+  text-align: center; font-size: 16px;
+  scroll-snap-align: center;
+  color: var(--muted);
+}
+.am-wheel-item.selected { color: var(--accent); font-weight: 700; font-size: 18px; }
+.am-wheel-labels {
+  display: grid; grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 4px; text-align: center;
+  font-size: 11px; color: var(--muted); margin-top: 4px;
+}
+.am-footer { padding: 8px 16px 16px; }
+.am-confirm {
+  width: 100%; padding: 13px;
+  border: 0; border-radius: 10px;
+  background: var(--accent); color: white;
+  font: inherit; font-size: 16px; font-weight: 700;
+  cursor: pointer;
+}
+.am-confirm:active { transform: scale(0.98); }
+
+@media (max-width: 720px) {
+  .header { gap: 18px; }
+  .age-circle { width: 110px; height: 110px; }
+  .age-num { font-size: 46px; }
+  .header-title { font-size: 22px; }
+  .prem-big { font-size: 26px; }
+}
+@media (max-width: 540px) {
+  .header { flex-direction: column; gap: 12px; }
+  .age-circle { width: 96px; height: 96px; }
+  .age-num { font-size: 40px; }
+  .age-num.is-empty { font-size: 28px; }
+  .header-title { font-size: 20px; }
+  .prem-big { font-size: 24px; }
+  .mode-btn { font-size: 12px; padding: 9px 4px; }
+  .pill-btn { padding: 7px 16px; font-size: 13px; }
+  table.illu { font-size: 12px; }
+  table.illu thead th { font-size: 11px; padding: 8px 6px; }
+  table.illu td { padding: 7px 6px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header-outer">
+  <div class="header">
+    <button class="age-circle" id="age-circle-btn" title="點此輸入年齡">
+      <div class="age-num is-empty" id="h-age">—</div>
+      <div class="age-label">歲</div>
+    </button>
+    <div class="header-center">
+      <div class="header-title" id="h-title">PFA-3年 美富紅運</div>
+      <div class="header-subtitle" id="header-subtitle">富邦人壽美富紅運外幣分紅終身壽險</div>
+      <div class="bonus-row">
+        <button class="bonus-pill" id="bonus-lucky-pill">
+          <span class="bonus-icon">💡</span> 馬上幸福 <span class="bonus-amt" id="bonus-lucky-amt">—</span>
+        </button>
+        <button class="bonus-pill" id="bonus-wallet-pill">
+          <span class="bonus-icon">💡</span> 富邦錢包 <span class="bonus-amt" id="bonus-wallet-amt">—</span>
+        </button>
+      </div>
+      <div class="prem-big">$&nbsp;<span id="h-prem">—</span><small>&nbsp;<span class="ccyLabel">元</span></small></div>
+      <div class="prem-unit">折扣後年繳保費</div>
+    </div>
+  </div>
+</div>
+
+<div class="body-outer"><div class="body">
+  <div class="err-msg" id="err-msg" style="display:none"></div>
+
+  <!-- Row 1: gender (left) | center: 保額±控制 + 3年/6年期 | right: 幣別 + 匯率狀態 -->
+  <div class="ctrl-row">
+    <div class="pill-toggle" id="genderToggle">
+      <button class="pill-btn active" data-gender="1">男</button>
+      <button class="pill-btn" data-gender="2">女</button>
+    </div>
+    <div class="ctrl-center">
+      <div class="amount-row body-amount-row">
+        <span class="amount-label">保額</span>
+        <button class="amt-btn" id="btn-minus">－</button>
+        <input class="amt-display" id="amt-display" type="number" min="2" step="0.1" placeholder="—">
+        <button class="amt-btn" id="btn-plus">＋</button>
+        <span class="amt-unit">萬</span>
+      </div>
+      <div class="period-inline">
+        <div class="pill-toggle" id="periodToggle">
+          <button class="pill-btn active" data-p="3">3 年期</button>
+          <button class="pill-btn" data-p="6">6 年期</button>
+        </div>
+      </div>
+    </div>
+    <div class="ctrl-right">
+      <div class="pill-toggle" id="ccyToggle">
+        <button class="pill-btn active" data-c="TWD">台幣&nbsp;<input class="exrate-inline" id="exrate" value="32.00" type="number" step="0.01" min="1" onclick="event.stopPropagation()"></button>
+        <button class="pill-btn" data-c="USD">美元</button>
+      </div>
+      <div class="fx-status" id="fxStatus"></div>
+    </div>
+  </div>
+
+  <!-- Row 2: 3 mode segmented control (Key 保額 已合併到上面 ± 控制) -->
+  <div class="mode-row" id="modeRow">
+    <button class="mode-btn active" data-mode="total" id="mode-total-btn">3 年總存</button>
+    <button class="mode-btn" data-mode="annual">年存</button>
+    <button class="mode-btn" data-mode="target">目標壽險金額</button>
+  </div>
+
+  <!-- Big amount input -->
+  <div class="amount-input-row">
+    <div class="amount-input-wrap">
+      <input class="amount-text-input" id="amount-text" type="number" min="0.1" step="1" value="100">
+      <span class="amount-text-unit" id="amount-text-unit">萬(3 年總存)</span>
+    </div>
+  </div>
+
+  <!-- Quick rows (one shown per mode) -->
+  <div class="quick-row" id="quick-row-total">
+    <button class="quick-btn" data-q="50">50</button>
+    <button class="quick-btn active" data-q="100">100</button>
+    <button class="quick-btn" data-q="300">300</button>
+    <button class="quick-btn" data-q="600">600</button>
+    <button class="quick-btn" data-q="1000">1000</button>
+    <span class="quick-unit" id="quick-total-unit">萬美元(3 年總存)</span>
+  </div>
+  <div class="quick-row" id="quick-row-annual" style="display:none">
+    <button class="quick-btn-annual" data-qa="5">5</button>
+    <button class="quick-btn-annual active" data-qa="10">10</button>
+    <button class="quick-btn-annual" data-qa="20">20</button>
+    <button class="quick-btn-annual" data-qa="50">50</button>
+    <button class="quick-btn-annual" data-qa="100">100</button>
+    <span class="quick-unit">萬美元/年</span>
+  </div>
+  <div class="quick-row" id="quick-row-target" style="display:none">
+    <button class="quick-btn-target" data-qt="100">100</button>
+    <button class="quick-btn-target active" data-qt="300">300</button>
+    <button class="quick-btn-target" data-qt="500">500</button>
+    <button class="quick-btn-target" data-qt="1000">1000</button>
+    <button class="quick-btn-target" data-qt="2000">2000</button>
+    <span class="quick-unit">萬美元(第 6 年身故金 A+D+X)</span>
+  </div>
+
+  <div class="summary-pill" id="summary-pill" style="display:none"></div>
+  <button class="fx-refresh-btn" id="fxRefresh" style="margin-left:8px">↻ 更新匯率</button>
+
+  <div class="tbl-section" id="tbl-section" style="display:none">
+    <div class="tbl-note">‧ 本保險為分紅保險單,保單紅利為預估值,本公司不保證其給付金額。最可能紅利‧繳清保險金額。</div>
+    <div class="tbl-wrap">
+      <table class="illu">
+        <thead><tr>
+          <th>年度</th><th>年齡</th>
+          <th>折扣後保費</th><th>折扣後總保費</th>
+          <th>解約金</th>
+          <th>解約獲利</th>
+          <th>身故金</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="tbl-footer">※ 單位:<span id="tbl-unit">美元</span>。實際給付以富邦人壽核保保單條款為準。</div>
+  </div>
+  <div class="empty-msg" id="empty-msg">請輸入年齡後自動計算</div>
+</div></div>
+
+<!-- AGE MODAL -->
+<div class="am-overlay" id="am-overlay">
+  <div class="am-card" id="am-card">
+    <div class="am-age-display">
+      <span class="am-age-num" id="am-age-num">—</span>
+      <span class="am-age-unit">歲</span>
+    </div>
+    <div class="am-gender-wrap">
+      <div class="am-gender-seg">
+        <button class="am-gender-btn am-active" id="am-male" data-g="1">男</button>
+        <button class="am-gender-btn" id="am-female" data-g="2">女</button>
+      </div>
+    </div>
+    <div class="am-bday-btn-wrap" id="am-bday-btn-wrap">
+      <button class="am-bday-btn" id="am-show-wheel">🎂&nbsp;改用生日輸入</button>
+    </div>
+    <div id="am-panel-num">
+      <div class="am-numpad-display" id="am-numpad-display">—</div>
+      <div class="am-numpad-grid">
+        <button class="am-num" data-k="1">1</button>
+        <button class="am-num" data-k="2">2</button>
+        <button class="am-num" data-k="3">3</button>
+        <button class="am-num" data-k="4">4</button>
+        <button class="am-num" data-k="5">5</button>
+        <button class="am-num" data-k="6">6</button>
+        <button class="am-num" data-k="7">7</button>
+        <button class="am-num" data-k="8">8</button>
+        <button class="am-num" data-k="9">9</button>
+        <button class="am-num am-num-fn" data-k="back">⌫</button>
+        <button class="am-num" data-k="0">0</button>
+        <button class="am-num am-num-fn" data-k="clear">C</button>
+      </div>
+    </div>
+    <div id="am-panel-wheel" style="display:none">
+      <button class="am-bday-btn am-back-btn" id="am-show-num">←&nbsp;返回鍵盤</button>
+      <div class="am-wheels" id="am-wheels">
+        <div class="am-wheel-col" id="am-wc-year"><div class="am-wheel-list" id="am-wl-year"></div></div>
+        <div class="am-wheel-col" id="am-wc-month"><div class="am-wheel-list" id="am-wl-month"></div></div>
+        <div class="am-wheel-col" id="am-wc-day"><div class="am-wheel-list" id="am-wl-day"></div></div>
+      </div>
+      <div class="am-wheel-labels"><span>民國年</span><span>月</span><span>日</span></div>
+    </div>
+    <div class="am-footer">
+      <button class="am-confirm" id="am-confirm">完成</button>
+    </div>
+  </div>
+</div>
+
+<!-- BONUS INFO MODAL -->
+<div class="bm-overlay" id="bm-overlay">
+  <div class="bm-card">
+    <div class="bm-header">
+      <span class="bm-title" id="bm-title">回饋說明</span>
+      <button class="bm-close" id="bm-close">✕</button>
+    </div>
+    <div class="bm-body" id="bm-body"></div>
+  </div>
+</div>
+
+<script>
+// ====== ACTUARIAL TABLES (loaded async from products/<code>/tables.json) ======
+let T = null;
+let CONFIG = null;
+// ====== STATEtate = {
+  gender: 1, insAge: -1, period: 3,
+  sumInsured: 15,
+  mode: 'total', inputAmount: 100,  // 大輸入框的數字(隨 mode 解讀)
+  directSum: null,                  // 若不為 null,優先用為 sum_w(從上方 ± 控制設定)
+  currency: 'TWD', fxRate: 32.00,
+};
+const TODAY = new Date(2026, 3, 29);
+const MAX_AGE = 110;
+
+// ====== PRECISION HELPERS ======
+function ceilFromIntegers(num, den) {
+  if (num === 0) return 0;
+  if (num > 0) return Math.ceil(num / den);
+  return -Math.ceil(-num / den);
+}
+function roundFromIntegers(num, den) {
+  if (num === 0) return 0;
+  const sign = num < 0 ? -1 : 1, a = sign * num;
+  const q = Math.floor(a / den), r = a - q * den;
+  return sign * (r * 2 >= den ? q + 1 : q);
+}
+function bonuScaled(v) {
+  if (Number.isInteger(v)) return [v * 100, 100];
+  const s = String(v), dot = s.indexOf('.');
+  if (dot < 0) return [Math.round(v * 100), 100];
+  const decs = s.length - dot - 1;
+  if (decs >= 4) return [Math.round(v * 10000), 10000];
+  if (decs >= 2) return [Math.round(v * 100), 100];
+  return [Math.round(v * 10), 10];
+}
+function ceilProductWithSum(sum_w, factor) {
+  if (sum_w === 0 || factor === 0) return 0;
+  const sumScale = Number.isInteger(sum_w) ? 1 : (Number.isInteger(sum_w * 10) ? 10 : 100);
+  const sumInt = Math.round(sum_w * sumScale);
+  const [bInt, bScale] = bonuScaled(factor);
+  return ceilFromIntegers(sumInt * bInt, sumScale * bScale);
+}
+function roundSumByRate(sum_w, rate) {
+  const sumScale = Number.isInteger(sum_w) ? 1 : 10;
+  const sumInt = Math.round(sum_w * sumScale);
+  return roundFromIntegers(sumInt * rate, sumScale);
+}
+function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+function key9(period, gender, age) { return `PFA${pad2(period)}${pad2(gender)}${pad2(age)}`; }
+function lookup(name, key, idx) {
+  const arr = T[name] && T[name][key];
+  if (!arr || idx < 0 || idx >= arr.length) return 0;
+  const v = arr[idx];
+  return (v == null || isNaN(v)) ? 0 : v;
+}
+
+// ====== DISCOUNT ======
+function calcDiscount(period, sum_w) {
+  let pct = 0;
+  if ((period === 3 && sum_w >= 10) || (period === 6 && sum_w >= 15)) pct += 1;
+  pct += 1;
+  return Math.min(pct, 2);
+}
+
+// ====== ENGINE ======
+function compute(gender, ins_age, period, sum_w) {
+  const base = key9(period, gender, ins_age);
+  const bonuKey = base + '2';
+  const rate = (T.GP && T.GP[base]) || 0;
+  if (rate === 0) return null;
+  const annual_orig = roundSumByRate(sum_w, rate);
+  const discPct = calcDiscount(period, sum_w);
+  const annual_disc = roundFromIntegers(annual_orig * (10000 - discPct * 100), 10000);
+  const max_y = MAX_AGE - ins_age + 1;
+  const Ks = new Array(max_y), Ms = new Array(max_y), Zs = new Array(max_y);
+  let Z = 0;
+  for (let yr = 1; yr <= max_y; yr++) {
+    const idx = yr - 1;
+    const bonu = lookup('BONU', bonuKey, idx);
+    let K = 0, M = 0;
+    if (yr !== 1) {
+      const t1 = ceilProductWithSum(sum_w, bonu);
+      const [bInt, bScale] = bonuScaled(bonu);
+      const t2 = ceilFromIntegers(Z * bInt, 10000 * bScale);
+      K = t1 + t2;
+      if (yr >= max_y) M = 0;
+      else {
+        const pvfb_next = lookup('PVFB', base, yr);
+        M = pvfb_next ? roundFromIntegers(K * 10000, pvfb_next) : 0;
+      }
+    }
+    Z += M;
+    Ks[idx] = K; Ms[idx] = M; Zs[idx] = Z;
+  }
+  const K_max = Ks[max_y - 1];
+  const rows = [];
+  for (let yr = 1; yr <= max_y; yr++) {
+    const idx = yr - 1;
+    const A = ceilProductWithSum(sum_w, lookup('DIE', base, idx));
+    const B = ceilProductWithSum(sum_w, lookup('CV', base, idx));
+    const D = ceilProductWithSum(sum_w, lookup('BONUDIE', bonuKey, idx));
+    const E = ceilProductWithSum(sum_w, lookup('BONUCV', bonuKey, idx));
+    const die2 = lookup('_DIE2', base, idx);
+    const pvfb0 = lookup('PVFB0', base, yr);
+    const Zi = Zs[idx];
+    let X = ceilFromIntegers(Zi * die2, 10000);
+    let Y = ceilFromIntegers(Zi * pvfb0, 10000);
+    if (yr >= max_y) { X += K_max; Y += K_max; }
+    const paid_yr = yr <= period ? annual_disc : 0;
+    const paid_cum = annual_disc * Math.min(yr, period);
+    rows.push({
+      year: yr, age: ins_age + yr - 1, paid_yr, paid_cum,
+      A, B, K: Ks[idx], M: Ms[idx], Z: Zs[idx],
+      D, E, X, Y, death: A + D + X, surr: B + E + Y
+    });
+  }
+  return { annual_orig, annual_disc, discount_pct: discPct, rows };
+}
+
+// ====== REVERSE CALC ======
+function maxSumByAge(age) { return age >= 16 ? 600 : 30; }
+function clampSum(sum_w) {
+  const minS = 2, maxS = maxSumByAge(state.insAge);
+  return Math.max(minS, Math.min(maxS, sum_w));
+}
+function sumFromAnnual(gender, ins_age, period, annual_target) {
+  const rate = (T.GP && T.GP[key9(period, gender, ins_age)]) || 0;
+  if (rate === 0) return 0;
+  let est = annual_target / (rate * 0.98);
+  est = Math.round(est * 10) / 10;
+  return clampSum(est);
+}
+function sumFromTotal(gender, ins_age, period, total_target) {
+  return sumFromAnnual(gender, ins_age, period, total_target / period);
+}
+function sumFromDeathTarget(gender, ins_age, period, death6_target) {
+  const baseline = compute(gender, ins_age, period, 10);
+  if (!baseline || baseline.rows.length < 6) return 0;
+  const death6_at_10 = baseline.rows[5].death;
+  if (death6_at_10 === 0) return 0;
+  let est = (death6_target / death6_at_10) * 10;
+  est = Math.round(est * 10) / 10;
+  est = clampSum(est);
+  let best = est, bestDiff = Math.abs(compute(gender, ins_age, period, est).rows[5].death - death6_target);
+  for (let delta of [-0.5, -0.1, 0.1, 0.5]) {
+    const c = clampSum(Math.round((est + delta) * 10) / 10);
+    if (c === est) continue;
+    const r = compute(gender, ins_age, period, c);
+    if (!r || r.rows.length < 6) continue;
+    const diff = Math.abs(r.rows[5].death - death6_target);
+    if (diff < bestDiff) { best = c; bestDiff = diff; }
+  }
+  return best;
+}
+
+// ====== DISPLAY HELPERS ======
+function fmt0(n) { return Math.round(n).toLocaleString('en-US'); }
+function convert(usd) { return state.currency === 'TWD' ? Math.round(usd * state.fxRate) : usd; }
+function fmtMoney(usd) { return (usd == null || usd === 0) ? '—' : fmt0(convert(usd)); }
+
+// ====== RECOMPUTE ======
+function recompute() {
+  if (state.insAge < 0) {
+    document.getElementById('h-age').textContent = '—';
+    document.getElementById('h-age').classList.add('is-empty');
+    document.getElementById('h-prem').textContent = '—';
+    document.getElementById('amt-display').value = '';
+    document.getElementById('summary-pill').style.display = 'none';
+    document.getElementById('tbl-section').style.display = 'none';
+    document.getElementById('empty-msg').style.display = 'block';
+    return;
+  }
+  document.getElementById('h-age').classList.remove('is-empty');
+
+  // If user used the ± to override sum directly, honor that
+  if (state.directSum != null) {
+    state.sumInsured = clampSum(state.directSum);
+  } else {
+    // Mode inputs: 萬 in currently-selected currency, convert to USD-equiv first
+    const usdPerInputWan = state.currency === 'TWD' ? (10000 / state.fxRate) : 10000;
+    if (state.mode === 'annual') state.sumInsured = sumFromAnnual(state.gender, state.insAge, state.period, state.inputAmount * usdPerInputWan);
+    else if (state.mode === 'total') state.sumInsured = sumFromTotal(state.gender, state.insAge, state.period, state.inputAmount * usdPerInputWan);
+    else if (state.mode === 'target') state.sumInsured = sumFromDeathTarget(state.gender, state.insAge, state.period, state.inputAmount * usdPerInputWan);
+  }
+
+  document.getElementById('amt-display').value = state.sumInsured;
+
+  if (state.insAge > 75) { showError('保險年齡需介於 0 ~ 75 歲'); return; }
+  const result = compute(state.gender, state.insAge, state.period, state.sumInsured);
+  if (!result) { showError('查無此組合的費率資料'); return; }
+  hideError();
+
+  document.getElementById('h-age').textContent = state.insAge;
+  document.getElementById('h-prem').textContent = fmt0(convert(result.annual_disc));
+
+  updateBonusPills(result.annual_disc);
+
+  document.getElementById('summary-pill').style.display = 'inline-block';
+  document.getElementById('summary-pill').innerHTML =
+    `${state.period}年期 · <b>${state.sumInsured}萬</b> · PFA · 折扣率 ${result.discount_pct}%`;
+
+  renderTable(result.rows);
+  document.getElementById('tbl-section').style.display = 'block';
+  document.getElementById('empty-msg').style.display = 'none';
+}
+
+function renderTable(rows) {
+  const tbody = document.getElementById('tbody');
+  // Find break-even row (first where surr > paid_cum)
+  let beIdx = -1;
+  for (let i = 0; i < rows.length; i++) {
+    if (rows[i].surr > rows[i].paid_cum) { beIdx = i; break; }
+  }
+  tbody.innerHTML = rows.map((r, i) => {
+    const profit = r.surr - r.paid_cum;
+    const cls = i === beIdx ? 'milestone' : '';
+    return `<tr class="${cls}">` +
+      `<td class="txt">${r.year}</td>` +
+      `<td class="txt">${r.age}</td>` +
+      `<td>${r.paid_yr === 0 ? '—' : fmt0(convert(r.paid_yr))}</td>` +
+      `<td>${fmt0(convert(r.paid_cum))}</td>` +
+      `<td>${fmt0(convert(r.surr))}</td>` +
+      `<td>${profit <= 0 ? '—' : fmt0(convert(profit))}</td>` +
+      `<td><b>${fmt0(convert(r.death))}</b></td>` +
+      `</tr>`;
+  }).join('');
+  document.getElementById('tbl-unit').textContent = state.currency === 'TWD' ? '新台幣元' : '美元';
+}
+
+function showError(msg) {
+  const el = document.getElementById('err-msg');
+  el.textContent = msg; el.style.display = 'block';
+  document.getElementById('tbl-section').style.display = 'none';
+}
+function hideError() { document.getElementById('err-msg').style.display = 'none'; }
+
+// ====== BONUS (馬上幸福 + 富邦錢包) ======
+// 規則(美元保單,用富邦錢包掃碼分期繳):
+//   馬上幸福: 3年期(短年繳) 年繳 ≥ 24,000 USD → +1% × 首年保費(折扣後) → 折成 NT$
+//             6年期(長年繳) 年繳 ≥ 12,000 USD → +2% × 首年保費(折扣後) → 折成 NT$
+//   富邦錢包: 3年期 年繳 ≥ 45,000 USD → NT$8,000
+//             6年期 年繳 ≥ 24,000 USD → NT$8,000
+//   都用「折扣後年繳保費」當門檻判斷與計算基準
+function bonusInfo(annual_disc) {
+  const ann = annual_disc;
+  let lucky = { met: false, pct: 0, threshold: 0, twd: 0 };
+  let wallet = { met: false, threshold: 0, twd: 0 };
+  if (state.period === 3) {
+    lucky.pct = 1; lucky.threshold = 24000;
+    wallet.threshold = 45000;
+  } else {
+    lucky.pct = 2; lucky.threshold = 12000;
+    wallet.threshold = 24000;
+  }
+  if (ann >= lucky.threshold) {
+    lucky.met = true;
+    lucky.twd = Math.round(ann * (lucky.pct / 100) * state.fxRate);
+  }
+  if (ann >= wallet.threshold) {
+    wallet.met = true;
+    wallet.twd = 8000;
+  }
+  return { lucky, wallet };
+}
+function updateBonusPills(annual_disc) {
+  const b = bonusInfo(annual_disc);
+  const luckyAmt = document.getElementById('bonus-lucky-amt');
+  const luckyPill = document.getElementById('bonus-lucky-pill');
+  const walletAmt = document.getElementById('bonus-wallet-amt');
+  const walletPill = document.getElementById('bonus-wallet-pill');
+  if (b.lucky.met) {
+    luckyAmt.textContent = 'NT$ ' + b.lucky.twd.toLocaleString('en-US');
+    luckyPill.classList.remove('is-disabled');
+  } else {
+    luckyAmt.textContent = '—';
+    luckyPill.classList.add('is-disabled');
+  }
+  if (b.wallet.met) {
+    walletAmt.textContent = 'NT$ ' + b.wallet.twd.toLocaleString('en-US');
+    walletPill.classList.remove('is-disabled');
+  } else {
+    walletAmt.textContent = '—';
+    walletPill.classList.add('is-disabled');
+  }
+}
+function openBonusModal(which) {
+  const overlay = document.getElementById('bm-overlay');
+  const title = document.getElementById('bm-title');
+  const body = document.getElementById('bm-body');
+  // Get current annual disc for status
+  const result = (state.insAge >= 0) ? compute(state.gender, state.insAge, state.period, state.sumInsured) : null;
+  const ann = result ? result.annual_disc : 0;
+  const b = bonusInfo(ann);
+  if (which === 'lucky') {
+    title.textContent = '💡 馬上幸福(分期繳回饋)';
+    const isShort = state.period === 3;
+    body.innerHTML = `
+      <p>使用<b>富邦錢包掃碼</b>繳費(分期繳),依年期條件達標可享回饋:</p>
+      <table>
+        <thead><tr><th>幣別</th><th>短年繳(2~5 年)</th><th>長年繳(6 年以上)</th></tr></thead>
+        <tbody>
+          <tr><td>美元</td><td class="${isShort?'met':'nope'}">≥ 24,000 USD → +1%</td><td class="${!isShort?'met':'nope'}">≥ 12,000 USD → +2%</td></tr>
+          <tr><td>澳幣</td><td>≥ 38,000 → +1%</td><td>≥ 19,000 → +2%</td></tr>
+        </tbody>
+      </table>
+      <p>目前折扣後年繳:<b>${ann ? '$ ' + fmt0(ann) + ' USD' : '—'}</b><br>
+        本年期(<b>${state.period} 年期</b>)門檻:<b>$ ${b.lucky.threshold.toLocaleString('en-US')} USD</b> → 回饋率 <b>+${b.lucky.pct}%</b><br>
+        ${b.lucky.met ? `已達標 → 馬上幸福 = 首年保費 × ${b.lucky.pct}% × 匯率 = <b>NT$ ${b.lucky.twd.toLocaleString('en-US')}</b>` : '<span class="nope">未達門檻</span>'}
+      </p>
+      <div class="small">‧ 信用卡需活動登錄(115/4/1 ~ 115/7/10,限量 10 萬名,代碼 0412)<br>
+        ‧ 預計繳款成功後 60 個工作天起陸續回饋,使用期限至 116/8/31</div>
+    `;
+  } else {
+    title.textContent = '💡 富邦錢包 NT$8,000';
+    const isShort = state.period === 3;
+    body.innerHTML = `
+      <p>使用<b>富邦錢包掃碼</b>繳費(每戶限一次),達門檻可獲一次性 NT$8,000 刷卡金:</p>
+      <table>
+        <thead><tr><th>幣別</th><th>短年繳(2~5 年)</th><th>長年繳(6 年以上)</th></tr></thead>
+        <tbody>
+          <tr><td>美元</td><td class="${isShort?'met':'nope'}">年繳 ≥ 45,000</td><td class="${!isShort?'met':'nope'}">年繳 ≥ 24,000</td></tr>
+          <tr><td>澳幣</td><td>≥ 71,000</td><td>≥ 38,000</td></tr>
+          <tr><td>台幣(信用卡)</td><td>≥ 150 萬</td><td>≥ 80 萬</td></tr>
+        </tbody>
+      </table>
+      <p>目前折扣後年繳:<b>${ann ? '$ ' + fmt0(ann) + ' USD' : '—'}</b><br>
+        本年期(<b>${state.period} 年期</b>)門檻:<b>$ ${b.wallet.threshold.toLocaleString('en-US')} USD</b><br>
+        ${b.wallet.met ? '已達標 → <b>NT$ 8,000</b> 刷卡金' : '<span class="nope">未達門檻</span>'}
+      </p>
+      <div class="small">‧ 每戶限一次,刷卡金使用期限至 116/8/31<br>
+        ‧ 預計繳款成功後 60 個工作天起陸續回饋</div>
+    `;
+  }
+  overlay.classList.add('show');
+}
+function closeBonusModal() { document.getElementById('bm-overlay').classList.remove('show'); }
+
+// ====== AGE MODAL ======
+let amState = { mode: 'num', numStr: '', gender: 1, year: 85, month: 1, day: 1 };
+function openAgeModal() {
+  amState.gender = state.gender;
+  amState.numStr = state.insAge >= 0 ? String(state.insAge) : '';
+  document.getElementById('am-overlay').classList.add('show');
+  updateAmDisplay(); updateAmGender();
+}
+function closeAgeModal() { document.getElementById('am-overlay').classList.remove('show'); }
+function updateAmDisplay() {
+  document.getElementById('am-numpad-display').textContent = amState.numStr || '—';
+  document.getElementById('am-age-num').textContent = amState.numStr || '—';
+}
+function updateAmGender() {
+  document.getElementById('am-male').classList.toggle('am-active', amState.gender === 1);
+  document.getElementById('am-female').classList.toggle('am-active', amState.gender === 2);
+  // Live-preview body theme as user toggles in modal
+  document.body.classList.toggle('female', amState.gender === 2);
+}
+function amNumKey(k) {
+  if (k === 'clear') amState.numStr = '';
+  else if (k === 'back') amState.numStr = amState.numStr.slice(0, -1);
+  else if (amState.numStr.length < 2) amState.numStr += k;
+  updateAmDisplay();
+}
+function amSetGender(g) { amState.gender = g; updateAmGender(); }
+function amConfirm() {
+  if (amState.mode === 'num') {
+    const age = parseInt(amState.numStr, 10);
+    if (isNaN(age) || age < 0 || age > 75) { alert('年齡需介於 0 ~ 75 歲'); return; }
+    state.insAge = age;
+  } else {
+    const adYear = amState.year + 1911;
+    const birth = new Date(adYear, amState.month - 1, amState.day);
+    if (birth > TODAY) { alert('生日不能晚於今天'); return; }
+    let actAge = TODAY.getFullYear() - birth.getFullYear();
+    const m = TODAY.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && TODAY.getDate() < birth.getDate())) actAge--;
+    const lastBday = new Date(adYear + actAge, amState.month - 1, amState.day);
+    let monthsSince = (TODAY.getFullYear() - lastBday.getFullYear()) * 12 + (TODAY.getMonth() - lastBday.getMonth());
+    if (TODAY.getDate() < lastBday.getDate()) monthsSince -= 1;
+    state.insAge = actAge + (monthsSince > 6 ? 1 : 0);
+    if (state.insAge < 0 || state.insAge > 75) { alert('保險年齡 ' + state.insAge + ' 不在 0~75 範圍'); return; }
+  }
+  state.gender = amState.gender;
+  document.querySelectorAll('#genderToggle .pill-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.gender, 10) === state.gender);
+  });
+  document.body.classList.toggle('female', state.gender === 2);
+  closeAgeModal(); recompute();
+}
+function amSwitchView(v) {
+  amState.mode = v;
+  document.getElementById('am-panel-num').style.display = v === 'num' ? '' : 'none';
+  document.getElementById('am-panel-wheel').style.display = v === 'wheel' ? '' : 'none';
+  if (v === 'wheel') buildWheels();
+}
+function buildWheels() {
+  const today_roc = TODAY.getFullYear() - 1911;
+  const years = [], months = [], days = [];
+  for (let y = today_roc; y >= today_roc - 80; y--) years.push(y);
+  for (let m = 1; m <= 12; m++) months.push(m);
+  for (let d = 1; d <= 31; d++) days.push(d);
+  fillWheel('am-wl-year', years, amState.year);
+  fillWheel('am-wl-month', months, amState.month);
+  fillWheel('am-wl-day', days, amState.day);
+}
+function fillWheel(id, items, sel) {
+  const el = document.getElementById(id);
+  el.innerHTML = items.map(v => `<div class="am-wheel-item ${v===sel?'selected':''}" data-v="${v}">${v}</div>`).join('');
+  setTimeout(() => {
+    const selEl = el.querySelector('.am-wheel-item.selected');
+    if (selEl) selEl.scrollIntoView({block:'center'});
+  }, 0);
+  el.querySelectorAll('.am-wheel-item').forEach(it => {
+    it.addEventListener('click', () => {
+      el.querySelectorAll('.am-wheel-item').forEach(x => x.classList.remove('selected'));
+      it.classList.add('selected');
+      const v = parseInt(it.dataset.v, 10);
+      if (id === 'am-wl-year') amState.year = v;
+      else if (id === 'am-wl-month') amState.month = v;
+      else amState.day = v;
+      it.scrollIntoView({block:'center', behavior:'smooth'});
+    });
+  });
+}
+
+// ====== FX ======
+function setFxRate(rate, status) {
+  state.fxRate = rate;
+  document.getElementById('exrate').value = rate.toFixed(2);
+  const fxEl = document.getElementById('fxStatus');
+  if (status === 'live') fxEl.innerHTML = '<span class="live">● 即時匯率</span> ' + new Date().toLocaleString('zh-TW', {month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit'});
+  else if (status === 'manual') fxEl.innerHTML = '<span class="failed">● 手動匯率</span>';
+  else if (status === 'failed') fxEl.innerHTML = '<span class="failed">● 抓取失敗,使用預設 32</span>';
+  else fxEl.textContent = '抓取中...';
+  recompute();
+}
+async function fetchRate() {
+  document.getElementById('fxStatus').textContent = '抓取中...';
+  const apis = [
+    {url: 'https://open.er-api.com/v6/latest/USD', getRate: d => d?.rates?.TWD},
+    {url: 'https://api.exchangerate-api.com/v4/latest/USD', getRate: d => d?.rates?.TWD},
+    {url: 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json', getRate: d => d?.usd?.twd}
+  ];
+  for (const api of apis) {
+    try {
+      const r = await fetch(api.url, {cache: 'no-cache'});
+      if (!r.ok) continue;
+      const d = await r.json();
+      const rate = api.getRate(d);
+      if (rate && rate > 1 && rate < 100) { setFxRate(parseFloat(rate.toFixed(2)), 'live'); return; }
+    } catch (e) {}
+  }
+  setFxRate(state.fxRate, 'failed');
+}
+
+// ====== EVENTS ======
+document.getElementById('age-circle-btn').addEventListener('click', openAgeModal);
+document.getElementById('bonus-lucky-pill').addEventListener('click', () => openBonusModal('lucky'));
+document.getElementById('bonus-wallet-pill').addEventListener('click', () => openBonusModal('wallet'));
+document.getElementById('bm-close').addEventListener('click', closeBonusModal);
+document.getElementById('bm-overlay').addEventListener('click', e => {
+  if (e.target.id === 'bm-overlay') closeBonusModal();
+});
+document.getElementById('am-overlay').addEventListener('click', e => {
+  if (e.target.id === 'am-overlay') closeAgeModal();
+});
+document.querySelectorAll('.am-num').forEach(btn => btn.addEventListener('click', () => amNumKey(btn.dataset.k)));
+document.querySelectorAll('.am-gender-btn').forEach(btn => btn.addEventListener('click', () => amSetGender(parseInt(btn.dataset.g, 10))));
+document.getElementById('am-show-wheel').addEventListener('click', () => amSwitchView('wheel'));
+document.getElementById('am-show-num').addEventListener('click', () => amSwitchView('num'));
+document.getElementById('am-confirm').addEventListener('click', amConfirm);
+
+document.querySelectorAll('#genderToggle .pill-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#genderToggle .pill-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.gender = parseInt(btn.dataset.gender, 10);
+    document.body.classList.toggle('female', state.gender === 2);
+    recompute();
+  });
+});
+document.querySelectorAll('#ccyToggle .pill-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#ccyToggle .pill-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.currency = btn.dataset.c;
+    document.querySelectorAll('.ccyLabel').forEach(el => el.textContent = state.currency === 'TWD' ? '元' : 'USD');
+    updateModeUnitLabels();
+    recompute();
+  });
+});
+function updateModeUnitLabels() {
+  const c = state.currency === 'TWD' ? '台幣' : '美元';
+  // amount-text-unit
+  const unitMap = {
+    amount: '萬(保額)',
+    total: `萬${c}(${state.period} 年總存)`,
+    annual: `萬${c}/年`,
+    target: `萬${c}(第 6 年身故金)`
+  };
+  document.getElementById('amount-text-unit').textContent = unitMap[state.mode] || unitMap.total;
+  // quick-row units
+  document.getElementById('quick-total-unit').textContent = `萬${c}(${state.period} 年總存)`;
+  const annUnit = document.querySelector('#quick-row-annual .quick-unit');
+  if (annUnit) annUnit.textContent = `萬${c}/年`;
+  const tgtUnit = document.querySelector('#quick-row-target .quick-unit');
+  if (tgtUnit) tgtUnit.textContent = `萬${c}(第 6 年身故金 A+D+X)`;
+}
+document.getElementById('exrate').addEventListener('change', e => {
+  const v = parseFloat(e.target.value);
+  if (!isNaN(v) && v >= 1 && v <= 100) setFxRate(v, 'manual');
+});
+document.getElementById('fxRefresh').addEventListener('click', fetchRate);
+
+document.querySelectorAll('#periodToggle .pill-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#periodToggle .pill-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.period = parseInt(btn.dataset.p, 10);
+    document.getElementById('mode-total-btn').textContent = state.period + ' 年總存';
+    document.getElementById('quick-total-unit').textContent = `萬美元(${state.period} 年總存)`;
+    document.getElementById('h-title').textContent = `PFA-${state.period}年 美富紅運`;
+    recompute();
+  });
+});
+
+document.querySelectorAll('#modeRow .mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#modeRow .mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.mode = btn.dataset.mode;
+    state.directSum = null;  // 切回 mode 計算
+    ['total','annual','target'].forEach(m => {
+      document.getElementById('quick-row-' + m).style.display = m === state.mode ? '' : 'none';
+    });
+    updateModeUnitLabels();
+    // Preserve last inputAmount: don't reset, just sync UI
+    document.getElementById('amount-text').value = state.inputAmount;
+    // Highlight matching quick button if inputAmount matches; otherwise none active
+    const qattr = { total: 'q', annual: 'qa', target: 'qt' }[state.mode];
+    document.querySelectorAll(`#quick-row-${state.mode} button`).forEach(b => {
+      b.classList.toggle('active', parseFloat(b.dataset[qattr]) === state.inputAmount);
+    });
+    recompute();
+  });
+});
+
+document.querySelectorAll('.quick-row').forEach(row => {
+  row.addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    row.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const v = parseFloat(btn.dataset.q || btn.dataset.qa || btn.dataset.qt);
+    state.inputAmount = v;
+    state.directSum = null;
+    document.getElementById('amount-text').value = v;
+    recompute();
+  });
+});
+
+document.getElementById('amount-text').addEventListener('input', e => {
+  const v = parseFloat(e.target.value);
+  if (!isNaN(v) && v > 0) {
+    state.inputAmount = v;
+    state.directSum = null;
+    document.getElementById('quick-row-' + state.mode).querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    recompute();
+  }
+});
+
+// 保額 ± direct sum override (上方控制)
+function applyDirectSum(newSum) {
+  state.directSum = newSum;
+  recompute();
+}
+document.getElementById('btn-minus').addEventListener('click', () => {
+  if (state.insAge < 0) return openAgeModal();
+  const newSum = Math.max(2, +(state.sumInsured - 0.1).toFixed(1));
+  applyDirectSum(newSum);
+});
+document.getElementById('btn-plus').addEventListener('click', () => {
+  if (state.insAge < 0) return openAgeModal();
+  const newSum = Math.min(maxSumByAge(state.insAge), +(state.sumInsured + 0.1).toFixed(1));
+  applyDirectSum(newSum);
+});
+document.getElementById('amt-display').addEventListener('change', e => {
+  const v = parseFloat(e.target.value);
+  if (!isNaN(v) && v >= 2) applyDirectSum(v);
+});
+
+// ====== INIT (async) ======
+async function init() {
+  // Determine product code from URL: ?p=PFA (default to PFA)
+  const params = new URLSearchParams(location.search);
+  const code = params.get('p') || 'PFA';
+  // Load config + tables in parallel
+  try {
+    const [cfg, tbl] = await Promise.all([
+      fetch(`products/${code}/config.json`).then(r => r.json()),
+      fetch(`products/${code}/tables.json`).then(r => r.json())
+    ]);
+    CONFIG = cfg;
+    T = tbl;
+    document.getElementById('h-title').textContent = `${cfg.code}-${state.period}年 ${cfg.name}`;
+    document.getElementById('header-subtitle').textContent = cfg.fullName;
+    document.title = `${cfg.code} ${cfg.name}`;
+  } catch (e) {
+    document.getElementById('empty-msg').textContent = '載入商品資料失敗 — 請確認網址 ?p=XXX 與 products/<code>/ 資料夾存在';
+    return;
+  }
+  fetchRate();
+  setTimeout(() => openAgeModal(), 200);
+}
+init();
+</script>
+</body>
+</html>

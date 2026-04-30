@@ -1,1 +1,107 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>富邦人壽 商品試算總覽</title>
+<style>
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+:root {
+  --bg: #f5f5f7;
+  --paper: #ffffff;
+  --ink: #1d1d1f;
+  --muted: #888a8e;
+  --border: #d8d8dc;
+  --accent: #2e8b7e;
+  --accent-light: #d8ece7;
+  --accent-mint: #b8ddd2;
+  --header-grad: linear-gradient(135deg, #2e8b7e 0%, #4dab9b 100%);
+}
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg); color: var(--ink);
+  font-family: 'Microsoft JhengHei', 'PingFang TC', 'Heiti TC', 'Noto Sans TC', system-ui, Arial, sans-serif;
+  font-size: 15px; line-height: 1.5;
+}
+.banner {
+  background: var(--header-grad); color: white;
+  padding: 36px 16px 32px; text-align: center;
+}
+.banner h1 { margin: 0; font-size: 28px; font-weight: 700; letter-spacing: 0.5px; }
+.banner .sub { font-size: 13px; opacity: 0.9; margin-top: 4px; }
+main { max-width: 880px; margin: 0 auto; padding: 24px 16px 48px; }
+section h2 { font-size: 16px; color: var(--accent); margin: 24px 0 14px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.card {
+  background: white; border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px 20px;
+  text-decoration: none; color: var(--ink);
+  display: block; transition: all 0.15s;
+}
+.card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+.card-code { font-size: 13px; color: var(--accent); font-weight: 700; }
+.card-name { font-size: 19px; font-weight: 700; margin: 2px 0 6px; }
+.card-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.card-tag {
+  font-size: 11px; padding: 3px 9px;
+  background: var(--accent-light); color: var(--accent);
+  border-radius: 999px; font-weight: 500;
+}
+.card-stub {
+  background: #fafafa; color: var(--muted);
+  border: 1px dashed var(--border);
+}
+.card-stub:hover { transform: none; box-shadow: none; }
+.foot { font-size: 11px; color: var(--muted); text-align: center; margin-top: 36px; }
+</style>
+</head>
+<body>
 
+<div class="banner">
+  <h1>富邦人壽商品試算</h1>
+  <div class="sub">外幣分紅、終身壽險、退休年金等商品線上即時試算</div>
+</div>
+
+<main>
+  <section>
+    <h2>已上線商品</h2>
+    <div class="grid">
+
+      <a class="card" href="app.html?p=PFA">
+        <div class="card-code">PFA</div>
+        <div class="card-name">美富紅運</div>
+        <div class="card-desc">外幣分紅終身壽險,適合存錢同時提供高額身故保障。3 年期 / 6 年期繳費。</div>
+        <div class="card-tags">
+          <span class="card-tag">外幣 (USD)</span>
+          <span class="card-tag">終身壽險</span>
+          <span class="card-tag">分紅型</span>
+          <span class="card-tag">3 / 6 年期</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>規劃中</h2>
+    <div class="grid">
+      <div class="card card-stub">
+        <div class="card-code">PFW</div>
+        <div class="card-name">美好優退</div>
+        <div class="card-desc">外幣分紅終身保險,退休金年領商品。待整合 50/55/60/65/70/75 退休年齡選項。</div>
+        <div class="card-tags">
+          <span class="card-tag">外幣 (USD)</span>
+          <span class="card-tag">退休年金</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    本試算結果僅供參考,實際保單給付以富邦人壽核保保單條款為準。
+  </div>
+</main>
+
+</body>
+</html>
